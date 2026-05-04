@@ -54,40 +54,41 @@ jobs:
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           team: teamdagpenger
 
-  deploy-dev:
-    name: Deploy to dev
-    needs: [build]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: dev-gcp
-    permissions:
-      contents: "read"
-      id-token: "write"
-    steps:
-      - uses: actions/checkout@v6
-      - uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: .nais/nais.yaml
-          VAR: image=${{ needs.build.outputs.image }}
-          VARS: .nais/vars-dev.yaml
-          PRINT_PAYLOAD: true
+  # TODO: Aktiver deploy etter at appen er godkjent i Nais
+  # deploy-dev:
+  #   name: Deploy to dev
+  #   needs: [build]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment: dev-gcp
+  #   permissions:
+  #     contents: "read"
+  #     id-token: "write"
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - uses: nais/deploy/actions/deploy@v2
+  #       env:
+  #         CLUSTER: dev-gcp
+  #         RESOURCE: .nais/nais.yaml
+  #         VAR: image=${{ needs.build.outputs.image }}
+  #         VARS: .nais/vars-dev.yaml
+  #         PRINT_PAYLOAD: true
 
-  deploy-prod:
-    name: Deploy to Production
-    needs: [build]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: prod-gcp
-    permissions:
-      contents: "read"
-      id-token: "write"
-    steps:
-      - uses: actions/checkout@v6
-      - uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-gcp
-          RESOURCE: .nais/nais.yaml
-          VAR: image=${{ needs.build.outputs.image }}
-          VARS: .nais/vars-prod.yaml
-          PRINT_PAYLOAD: true
+  # deploy-prod:
+  #   name: Deploy to Production
+  #   needs: [build]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment: prod-gcp
+  #   permissions:
+  #     contents: "read"
+  #     id-token: "write"
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - uses: nais/deploy/actions/deploy@v2
+  #       env:
+  #         CLUSTER: prod-gcp
+  #         RESOURCE: .nais/nais.yaml
+  #         VAR: image=${{ needs.build.outputs.image }}
+  #         VARS: .nais/vars-prod.yaml
+  #         PRINT_PAYLOAD: true
