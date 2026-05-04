@@ -1,0 +1,6 @@
+build/
+.gradle/
+.kotlin/
+buildSrc/build/
+buildSrc/.gradle/
+buildSrc/.kotlin/

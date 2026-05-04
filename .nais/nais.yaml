@@ -1,0 +1,46 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: dp-oppfolging
+  namespace: teamdagpenger
+  labels:
+    team: teamdagpenger
+spec:
+  image: "{{ image }}"
+  port: 8080
+  replicas:
+    min: 2
+    max: 2
+  resources:
+    requests:
+      cpu: 15m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  azure:
+    application:
+      enabled: true
+  kafka:
+    pool: "{{ kafka.pool }}"
+  liveness:
+    path: /isalive
+  readiness:
+    path: /isready
+  prometheus:
+    enabled: true
+    path: /metrics
+  accessPolicy:
+    outbound:
+      rules:
+        - application: dp-datadeling
+        - application: dp-saksbehandling
+        - application: logging
+          namespace: nais-system
+  observability:
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
+    autoInstrumentation:
+      enabled: true
+      runtime: java
